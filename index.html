@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Learning Hub</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: #6c5ce7;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2.5rem; }
+        p { margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.9; }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        /* Card Component */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Interactive Quiz Elements */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-btn {
+            background-color: #ffeaa7;
+            border: 2px solid #fdcb6e;
+            padding: 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-btn:hover {
+            background-color: #fdcb6e;
+            transform: scale(1.02);
+        }
+
+        /* Feedback Text */
+        #feedback {
+            margin-top: 1rem;
+            font-weight: bold;
+            height: 20px;
+        }
+
+        /* Footer & Secret Tiny Button */
+        footer {
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            font-size: 0.9rem;
+            color: #666;
+            position: relative;
+        }
+
+        /* The Very Small Button */
+        .tiny-btn {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: #b2bec3;
+            border: none;
+            border-radius: 50%;
+            text-decoration: none;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        .tiny-btn:hover {
+            opacity: 1;
+            background-color: #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BrainQuest Academy 🚀</h1>
+        <p>Where learning feels like playing!</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Daily Trivia Challenge 🧠</h2>
+            <p>Which celestial body is known as the "Red Planet"?</p>
+            
+            <div class="options-grid">
+                <button class="quiz-btn" onclick="checkAnswer(false)">Venus 🌟</button>
+                <button class="quiz-btn" onclick="checkAnswer(true)">Mars 🔴</button>
+                <button class="quiz-btn" onclick="checkAnswer(false)">Jupiter 🌀</button>
+                <button class="quiz-btn" onclick="checkAnswer(false)">Saturn 🪐</button>
+            </div>
+
+            <p id="feedback"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 BrainQuest Academy. Keep exploring</p>
+        <!-- The tiny button is disguised as a small dot after the text -->
+        <a href="thing.html" class="tiny-btn" title="Secret Link"></a>
+    </footer>
+
+    <script>
+        function checkAnswer(isCorrect) {
+            const feedback = document.getElementById('feedback');
+            if (isCorrect) {
+                feedback.textContent = "🎉 Correct! Mars is rich in iron oxide, giving it a reddish tint.";
+                feedback.style.color = "#2ecc71";
+            } else {
+                feedback.textContent = "❌ Not quite! Give it another shot.";
+                feedback.style.color = "#e74c3c";
+            }
+        }
+    </script>
+
+</body>
+</html>
 
