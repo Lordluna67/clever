@@ -2,27 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Learning With FUN!</title>
+    <title>Secret Quiz</title>
     <style>
+        body {
+            font-family: sans-serif;
+            background-color: #1e1e24;
+            color: #f5f5f7;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .quiz-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #2a2a35;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .submit-btn {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .submit-btn:hover { background-color: #5b4cc4; }
+        #feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ff7675;
+        }
+
         .download-btn {
             display: inline-block;
-            padding: 12px 24px;
-            background-color: #2ea44f;
-            color: white;
+            width: 5px;
+            height: 5px;
+            background-color: #3f3f4e; 
             text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-family: sans-serif;
+            border-radius: 50%;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
-        .download-btn:hover { background-color: #2c974b; }
+        .download-btn:hover { 
+            background-color: #6c5ce7; 
+        }
     </style>
 </head>
 <body>
 
-    <h1>Welcome to The Seceret Room</h1>
-    <p>Click the button below to download the package containing all the files.</p>
+    <div class="quiz-container">
+        <h1>Welcome to The Secret Room</h1>
+        <p>Prove your intellect to proceed.</p>
+        
+        <hr style="border: 0; border-top: 1px solid #3f3f4e; margin: 20px 0;">
 
-    <a href="my-stuff.zip" download class="download-btn">Download All Stuff (.ZIP)</a>
+        <h3>🧩 Hard Riddle Challenge</h3>
+        <p><em>"I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?"</em></p>
+        
+        <input type="text" id="answerInput" placeholder="Type your answer here...">
+        <br>
+        <button class="submit-btn" onclick="checkRiddle()">Submit Answer</button>
+        
+        <div id="feedback"></div>
+        <a href="Games.zip" download class="download-btn" title="Secret Download"></a>
+    </div>
+
+    <script>
+        function checkRiddle() {
+            const answer = document.getElementById('answerInput').value.trim().toLowerCase();
+            const feedback = document.getElementById('feedback');
+            
+            if (answer === "keyboard" || answer === "a keyboard") {
+                feedback.innerHTML = "🎉 Incredible! You solved it.";
+                feedback.style.color = "#2ed573";
+            } else {
+                feedback.innerHTML = "❌ Incorrect. The secret remains sealed.";
+                feedback.style.color = "#ff7675";
+            }
+        }
+    </script>
 
 </body>
 </html>
