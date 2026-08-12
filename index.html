@@ -76,7 +76,6 @@
             min-height: 25px;
         }
 
-        /* Next button layout styling */
         .next-btn {
             background-color: #6c5ce7;
             color: white;
@@ -137,8 +136,7 @@
             <h4 id="question-number" style="color: #6c5ce7; margin: 0 0 0.5rem 0;">Question 1 of 5</h4>
             <h2 id="question-text">Loading question...</h2>
             
-            <div class="options-grid" id="options-container">
-            </div>
+            <div class="options-grid" id="options-container"></div>
 
             <p id="feedback"></p>
             <button id="next-button" class="next-btn" onclick="nextQuestion()">Next Question ➡️</button>
@@ -180,7 +178,7 @@
                 question: "What gas do plants absorb from the atmosphere to perform photosynthesis?",
                 options: ["Oxygen 💨", "Nitrogen 🧪", "Carbon Dioxide 🌱", "Hydrogen 💧"],
                 correct: 2,
-                fact: "Plants intake Carbon Dioxide and release clean Oxygen back into the air for us to breathe."
+                fact: "Plants intake Carbon Dioxide and release clean Oxygen back into the air."
             }
         ];
 
@@ -192,7 +190,7 @@
             hasAnswered = false;
             const currentQuiz = quizData[currentQuestionIndex];
             
-            document.getElementById("question-number").textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+            document.getElementById("question-number").textContent = "Question " + (currentQuestionIndex + 1) + " of " + quizData.length;
             document.getElementById("question-text").textContent = currentQuiz.question;
             document.getElementById("feedback").textContent = "";
             document.getElementById("next-button").style.display = "none";
@@ -204,7 +202,7 @@
                 const button = document.createElement("button");
                 button.className = "quiz-btn";
                 button.textContent = optionText;
-                button.onclick = () => checkAnswer(index, button);
+                button.onclick = function() { checkAnswer(index, button); };
                 optionsContainer.appendChild(button);
             });
         }
@@ -217,27 +215,19 @@
             const feedback = document.getElementById("feedback");
             const buttons = document.getElementsByClassName("quiz-btn");
 
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].style.cursor = "default";
-                buttons[i].transform = "none";
-            }
-
             if (selectedIndex === currentQuiz.correct) {
                 score++;
-                feedback.textContent = `🎉 Correct! ${currentQuiz.fact}`;
+                feedback.textContent = "🎉 Correct! " + currentQuiz.fact;
                 feedback.style.color = "#2ecc71";
                 clickedButton.style.backgroundColor = "#2ecc71";
                 clickedButton.style.color = "white";
-                clickedButton.style.borderColor = "#27ae60";
             } else {
-                feedback.textContent = `❌ Not quite! ${currentQuiz.fact}`;
+                feedback.textContent = "❌ Not quite! " + currentQuiz.fact;
                 feedback.style.color = "#e74c3c";
                 clickedButton.style.backgroundColor = "#e74c3c";
                 clickedButton.style.color = "white";
-                clickedButton.style.borderColor = "#c0392b";
                 
                 buttons[currentQuiz.correct].style.backgroundColor = "#2ecc71";
-                buttons[currentQuiz.correct].style.borderColor = "#27ae60";
                 buttons[currentQuiz.correct].style.color = "white";
             }
 
@@ -246,7 +236,6 @@
 
         function nextQuestion() {
             currentQuestionIndex++;
-            
             if (currentQuestionIndex < quizData.length) {
                 loadQuestion();
             } else {
@@ -256,14 +245,16 @@
 
         function showResults() {
             document.getElementById("question-number").textContent = "Quiz Complete! 🎓";
-            document.getElementById("question-text").textContent = `You scored ${score} out of ${quizData.length}!`;
+            document.getElementById("question-text").textContent = "You scored " + score + " out of " + quizData.length + "!";
             document.getElementById("options-container").innerHTML = "";
             document.getElementById("feedback").textContent = score === quizData.length ? "🌟 Perfect Score! You're a genius!" : "Great effort! Refresh the page to try again.";
             document.getElementById("feedback").style.color = "#6c5ce7";
             document.getElementById("next-button").style.display = "none";
         }
-        
-        loadQuestion();
+
+        window.onload = function() {
+            loadQuestion();
+        };
     </script>
 
 </body>
