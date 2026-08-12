@@ -72,7 +72,26 @@
         #feedback {
             margin-top: 1rem;
             font-weight: bold;
-            height: 20px;
+            font-size: 1.1rem;
+            min-height: 25px;
+        }
+
+        /* Next button layout styling */
+        .next-btn {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: none;
+            transition: background-color 0.2s;
+        }
+        .next-btn:hover {
+            background-color: #5b4cc4;
         }
 
         footer {
@@ -115,17 +134,14 @@
 
     <div class="container">
         <div class="card">
-            <h2>Daily Trivia Challenge 🧠</h2>
-            <p>Which celestial body is known as the "Red Planet"?</p>
+            <h4 id="question-number" style="color: #6c5ce7; margin: 0 0 0.5rem 0;">Question 1 of 5</h4>
+            <h2 id="question-text">Loading question...</h2>
             
-            <div class="options-grid">
-                <button class="quiz-btn" onclick="checkAnswer(false)">Venus 🌟</button>
-                <button class="quiz-btn" onclick="checkAnswer(true)">Mars 🔴</button>
-                <button class="quiz-btn" onclick="checkAnswer(false)">Jupiter 🌀</button>
-                <button class="quiz-btn" onclick="checkAnswer(false)">Saturn 🪐</button>
+            <div class="options-grid" id="options-container">
             </div>
 
             <p id="feedback"></p>
+            <button id="next-button" class="next-btn" onclick="nextQuestion()">Next Question ➡️</button>
         </div>
     </div>
 
@@ -135,18 +151,120 @@
     </footer>
 
     <script>
-        function checkAnswer(isCorrect) {
-            const feedback = document.getElementById('feedback');
-            if (isCorrect) {
-                feedback.textContent = "🎉 Correct! Mars is rich in iron oxide, giving it a reddish tint.";
+        const quizData = [
+            {
+                question: "Which celestial body is known as the 'Red Planet'?",
+                options: ["Venus 🌟", "Mars 🔴", "Jupiter 🌀", "Saturn 🪐"],
+                correct: 1,
+                fact: "Mars is rich in iron oxide (rust), giving its surface a reddish tint."
+            },
+            {
+                question: "What is the fastest land animal in the world?",
+                options: ["Cheetah 🐆", "Pronghorn 🦌", "Lion 🦁", "Peregrine Falcon 🦅"],
+                correct: 0,
+                fact: "A cheetah can accelerate from 0 to 60 mph in less than 3 seconds!"
+            },
+            {
+                question: "How many bones are there in an adult human body?",
+                options: ["106 🦴", "206 🦴", "306 🦴", "406 🦴"],
+                correct: 1,
+                fact: "Humans are born with around 270 bones, but many fuse together as we grow."
+            },
+            {
+                question: "Which ocean is the largest ocean on Earth?",
+                options: ["Atlantic Ocean 🌊", "Indian Ocean 🌊", "Arctic Ocean ❄️", "Pacific Ocean 🌏"],
+                correct: 3,
+                fact: "The Pacific Ocean covers more area than all of Earth's continents combined!"
+            },
+            {
+                question: "What gas do plants absorb from the atmosphere to perform photosynthesis?",
+                options: ["Oxygen 💨", "Nitrogen 🧪", "Carbon Dioxide 🌱", "Hydrogen 💧"],
+                correct: 2,
+                fact: "Plants intake Carbon Dioxide and release clean Oxygen back into the air for us to breathe."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        function loadQuestion() {
+            hasAnswered = false;
+            const currentQuiz = quizData[currentQuestionIndex];
+            
+            document.getElementById("question-number").textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+            document.getElementById("question-text").textContent = currentQuiz.question;
+            document.getElementById("feedback").textContent = "";
+            document.getElementById("next-button").style.display = "none";
+
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            currentQuiz.options.forEach((optionText, index) => {
+                const button = document.createElement("button");
+                button.className = "quiz-btn";
+                button.textContent = optionText;
+                button.onclick = () => checkAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex, clickedButton) {
+            if (hasAnswered) return; 
+            hasAnswered = true;
+
+            const currentQuiz = quizData[currentQuestionIndex];
+            const feedback = document.getElementById("feedback");
+            const buttons = document.getElementsByClassName("quiz-btn");
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].style.cursor = "default";
+                buttons[i].transform = "none";
+            }
+
+            if (selectedIndex === currentQuiz.correct) {
+                score++;
+                feedback.textContent = `🎉 Correct! ${currentQuiz.fact}`;
                 feedback.style.color = "#2ecc71";
+                clickedButton.style.backgroundColor = "#2ecc71";
+                clickedButton.style.color = "white";
+                clickedButton.style.borderColor = "#27ae60";
             } else {
-                feedback.textContent = "❌ Not quite! Give it another shot.";
+                feedback.textContent = `❌ Not quite! ${currentQuiz.fact}`;
                 feedback.style.color = "#e74c3c";
+                clickedButton.style.backgroundColor = "#e74c3c";
+                clickedButton.style.color = "white";
+                clickedButton.style.borderColor = "#c0392b";
+                
+                buttons[currentQuiz.correct].style.backgroundColor = "#2ecc71";
+                buttons[currentQuiz.correct].style.borderColor = "#27ae60";
+                buttons[currentQuiz.correct].style.color = "white";
+            }
+
+            document.getElementById("next-button").style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
             }
         }
+
+        function showResults() {
+            document.getElementById("question-number").textContent = "Quiz Complete! 🎓";
+            document.getElementById("question-text").textContent = `You scored ${score} out of ${quizData.length}!`;
+            document.getElementById("options-container").innerHTML = "";
+            document.getElementById("feedback").textContent = score === quizData.length ? "🌟 Perfect Score! You're a genius!" : "Great effort! Refresh the page to try again.";
+            document.getElementById("feedback").style.color = "#6c5ce7";
+            document.getElementById("next-button").style.display = "none";
+        }
+        
+        loadQuestion();
     </script>
 
 </body>
 </html>
-
